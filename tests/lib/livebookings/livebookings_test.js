@@ -18,15 +18,34 @@ describe('livebookings', function () {
           done();
         });
       });
-      before(function () {
-        livebookings.buildXML('SearchAvailabilityOneLocation', { SessionId: 'secret_id' });
-      });
-      it('stores in a variable', function (done) {
-        parse(livebookings.body(), function (err, result) {
-          result = JSON.stringify(result);
-          result.should.eq(xml);
-          done();
+      describe('no need for converting', function () {
+        before(function () {
+          livebookings.buildXML('SearchAvailabilityOneLocation', { SessionId: 'secret_id' });
         });
+
+        it('stores in a variable', function (done) {
+          parse(livebookings.body(), function (err, result) {
+            result = JSON.stringify(result);
+            result.should.eq(xml);
+            done();
+          });
+        });
+
+      });
+
+      describe('converts key', function () {
+        before(function () {
+          livebookings.buildXML('SearchAvailabilityOneLocation', { session_id: 'secret_id' });
+        });
+
+        it('stores in a variable', function (done) {
+          parse(livebookings.body(), function (err, result) {
+            result = JSON.stringify(result);
+            result.should.eq(xml);
+            done();
+          });
+        });
+
       });
     });
   });
