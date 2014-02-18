@@ -1,4 +1,4 @@
-var livebooking = function(db) {
+var Livebooking = function(db) {
   var collection = db.collection('livebookings');
   var that = {};
 
@@ -9,4 +9,4 @@ var livebooking = function(db) {
   return that;
 }
 
-module.exports = livebooking;
+module.exports = Livebooking;

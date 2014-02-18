@@ -1,12 +1,12 @@
-var livebookings = require('../../../lib/livebookings/livebookings.js'),
+var Soap = require('../../../lib/soap/soap.js'),
     fs = require('fs'),
     xml2js = require('xml2js');
 
-describe('bookings', function () {
+describe('soap', function () {
   describe('buildXML', function () {
-    var bookings = livebookings();
+    var soap = Soap();
     it('is a function', function () {
-      expect(bookings.buildXML).to.be.a('function');
+      expect(soap.buildXML).to.be.a('function');
     });
 
     describe('request body', function () {
@@ -20,11 +20,11 @@ describe('bookings', function () {
       });
       describe('no need for converting', function () {
         before(function () {
-          bookings.buildXML('SearchAvailabilityOneLocation', { SessionId: 'secret_id' });
+          soap.buildXML('SearchAvailabilityOneLocation', { SessionId: 'secret_id' });
         });
 
         it('stores in a variable', function (done) {
-          parse(bookings.body(), function (err, result) {
+          parse(soap.body(), function (err, result) {
             result = JSON.stringify(result);
             result.should.eq(xml);
             done();
@@ -35,11 +35,11 @@ describe('bookings', function () {
 
       describe('converts key', function () {
         before(function () {
-          bookings.buildXML('SearchAvailabilityOneLocation', { session_id: 'secret_id' });
+          soap.buildXML('SearchAvailabilityOneLocation', { session_id: 'secret_id' });
         });
 
         it('stores in a variable', function (done) {
-          parse(bookings.body(), function (err, result) {
+          parse(soap.body(), function (err, result) {
             result = JSON.stringify(result);
             result.should.eq(xml);
             done();
@@ -50,16 +50,16 @@ describe('bookings', function () {
     });
   });
   describe('soapAction', function () {
-    var bookings = livebookings();
+    var soap = Soap();
     it('unknown', function () {
-      expect(bookings.action).to.throw('run buildXML beforehand');
+      expect(soap.action).to.throw('run buildXML beforehand');
     });
     describe('body has been build', function () {
       before(function () {
-        bookings.buildXML('SearchAvailabilityOneLocation', { session_id: 'secret_id' });
+        soap.buildXML('SearchAvailabilityOneLocation', { session_id: 'secret_id' });
       });
       it('has been stored', function () {
-        expect(bookings.action()).to.eq('http://schemas.livebookings.net/OneFormat/Aggregator/External/1/0/ExternalPortType/SearchAvailabilityOneLocationRequest');
+        expect(soap.action()).to.eq('http://schemas.livebookings.net/OneFormat/Aggregator/External/1/0/ExternalPortType/SearchAvailabilityOneLocationRequest');
       });
     });
   });
