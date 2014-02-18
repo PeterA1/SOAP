@@ -14,6 +14,15 @@ describe('livebooking', function () {
   afterEach(function (done) {
     dbInstance.collection('livebookings').remove(done);
   });
+
+  it('needs db instance', function () {
+    expect(Livebooking).to.throw(Error, 'db instance required');
+  });
+
+  it('needs db instance', function () {
+    (function () { Livebooking({});}).should.throw(Error, 'db instance required');
+  });
+
   describe('save', function () {
     it('is a function', function () {
       expect(livebooking.save).to.be.a('function');
@@ -23,6 +32,9 @@ describe('livebooking', function () {
         docs.length.should.eq(1);
         done();
       });
+    });
+    it('needs callback function', function () {
+      (function () { livebooking.save({ location: 'Baker Street' }); }).should.throw;
     });
   });
 });
