@@ -34,7 +34,33 @@ describe('livebooking', function () {
       });
     });
     it('needs callback function', function () {
-      (function () { livebooking.save({ location: 'Baker Street' }); }).should.throw;
+      (function () { livebooking.save({ location: 'Baker Street' }); }).should.throw(Error);
+    });
+  });
+
+  describe('find', function () {
+    var booking = require(rootDir + '/factories/livebooking').build('livebooking');
+    it('is a function', function () {
+      expect(livebooking.find).to.be.a('function');
+    });
+    beforeEach(function (done) {
+      livebooking.save(booking, done);
+    });
+    it('queries database', function (done) {
+      livebooking.find({ country: 'GB' }, function (err, result) {
+        result.should.deep.equal([booking]);
+        done();
+      });
+    });
+    it('needs callback function', function () {
+      expect(livebooking.find).to.throw(Error);
+    });
+    it('finds all if no query specified', function (done) {
+      livebooking.find(done);
+    });
+    it('query needs to be an object', function (done) {
+      (function () { livebooking.find('gb', function (){}); }).should.throw(Error, 'query needs to be an object');
+      done();
     });
   });
 });
