@@ -4,6 +4,7 @@ var http = require('http'),
     
 var soap = new Soap();
     soap.buildXML('GetSessions');
+    console.log(soap.requestOptions());
 var req = http.request(soap.requestOptions(), function (res) {
   console.log(res.statusCode);
   var buffer = '';

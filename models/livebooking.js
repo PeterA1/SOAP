@@ -1,13 +1,14 @@
-var Livebooking = function(db) {
-  if (!db || typeof db.collection !== 'function') throw new Error('db instance required');
-  var collection = db.collection('livebookings');
-  var that = {};
+var Livebooking = (function () {
+  function Livebooking () {
+    if (!db || typeof db.collection !== 'function') throw new Error('db instance required');
+    this.collection = db.collection('livebookings');
+  }
 
-  that.save = function (params, callback) {
+  Livebooking.prototype.save = function (params, callback) {
     collection.insert(params, callback);
   }
 
-  that.find = function (query, callback) {
+  Livebooking.prototype.find = function (query, callback) {
     if (typeof query === 'function') {
       callback = query;
       query = {};
@@ -16,7 +17,7 @@ var Livebooking = function(db) {
     collection.find(query).toArray(callback);
   }
 
-  return that;
-}
+  return Livebooking;
+})();
 
 module.exports = Livebooking;
