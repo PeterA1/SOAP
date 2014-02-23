@@ -1,5 +1,5 @@
 var Livebooking = (function () {
-  function Livebooking () {
+  function Livebooking (db) {
     if (!db || typeof db.collection !== 'function') throw new Error('db instance required');
     this.collection = db.collection('livebookings');
   }
