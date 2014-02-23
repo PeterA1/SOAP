@@ -1,7 +1,8 @@
 var http = require('http'),
     net = require('net'),
-    soap = require('./lib/soap/soap')();
+    Soap = require('./lib/soap/soap');
     
+var soap = new Soap();
     soap.buildXML('GetSessions');
 var req = http.request(soap.requestOptions(), function (res) {
   console.log(res.statusCode);

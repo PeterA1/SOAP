@@ -4,7 +4,7 @@ var Soap = require('../../../lib/soap/soap.js'),
 
 describe('soap', function () {
   describe('buildXML', function () {
-    var soap = Soap();
+    var soap = new Soap();
     it('is a function', function () {
       expect(soap.buildXML).to.be.a('function');
     });
@@ -50,9 +50,9 @@ describe('soap', function () {
     });
   });
   describe('soapAction', function () {
-    var soap = Soap();
+    var soap = new Soap();
     it('unknown', function () {
-      expect(soap.action).to.throw('run buildXML beforehand');
+      expect( function () { soap.action(); } ).to.throw('run buildXML beforehand');
     });
     describe('body has been build', function () {
       before(function () {
